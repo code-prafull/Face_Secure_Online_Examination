@@ -126,6 +126,51 @@ The API base URL defaults to `http://localhost:5000/api` and can be overridden w
 
 ---
 
+## Deploying to Render
+
+The repo ships with a **`render.yaml`** Blueprint and a root `package.json` — one web
+service serves **both** the Express API and the built React SPA from the **same origin**
+(no CORS/cookie configuration needed: the build inlines `VITE_API_URL=/api`, so axios
+calls hit the service's own `/api` routes, and `backend/src/app.js` serves
+`frontend/dist` with an SPA fallback for client routes).
+
+### One-time: MongoDB Atlas
+1. Create a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster + database user.
+2. **Network Access → IP Address → Allow Access from Anywhere** (`0.0.0.0/0`) —
+   Render's egress IPs are dynamic.
+3. Copy the connection string: `mongodb+srv://user:pass@…/face-secure`.
+
+### Deploy A — Blueprint (recommended)
+1. Push this repo to GitHub.
+2. Render dashboard → **New + → Blueprint** → select the repo (Render reads `render.yaml`).
+3. When prompted, paste **`MONGO_URI`** (Atlas string) — `JWT_SECRET` is generated for you.
+4. Deploy → site at `https://<service-name>.onrender.com`.
+5. If you **rename** the service, update the `CLIENT_URL` env var to the final URL.
+
+### Deploy B — manual Web Service
+| Setting         | Value |
+|-----------------|-------|
+| Root directory  | *(leave empty — repo root)* |
+| Runtime         | Node |
+| Build Command   | `npm run build` |
+| Start Command   | `npm start` |
+| Env vars        | `NODE_ENV=production` · `MONGO_URI=<Atlas>` · `JWT_SECRET=<random>` · `CLIENT_URL=https://<your-app>.onrender.com` · `VITE_API_URL=/api` |
+
+### Alternative — split hosting (static SPA + separate API)
+- Frontend as a **Render Static Site** (build `npm run build`, publish `dist`) and the
+  backend as a Web Service.
+- Set the static site's env `VITE_API_URL=https://<api-host>/api` **at build time**
+  (overrides `frontend/.env.production`), and on the backend set
+  `CLIENT_URL=https://<frontend-url>` (+ optionally `ALLOWED_ORIGINS=…` for more origins).
+
+### Notes
+- Free web services **spin down** after ~15 min idle → the first request after idle
+  takes ~30–60 s to wake up.
+- `frontend/dist` is gitignored and built fresh on every Render deploy.
+- Never put secrets in `VITE_*` variables — they are inlined into the public JS bundle.
+
+---
+
 ## Test credentials
 
 | Role        | Email                 | Password    |

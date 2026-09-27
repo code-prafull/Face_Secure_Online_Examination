@@ -1,0 +1,33 @@
+# Render Blueprint — Face Secure
+#
+# Single web service that serves BOTH the Express API and the built React SPA
+# from the same origin (no CORS/cookie configuration needed on the client).
+# The frontend build inlines VITE_API_URL=/api, so all axios calls go to the
+# service's own /api routes.
+#
+# Deploy: Render dashboard → New + → Blueprint → select this repo.
+services:
+  - type: web
+    name: face-secure
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Paste your MongoDB Atlas connection string when prompted
+      # (mongodb+srv://user:pass@cluster/face-secure) — Atlas must allow 0.0.0.0/0.
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      # Update this if you rename the service (final URL = https://<name>.onrender.com)
+      - key: CLIENT_URL
+        value: https://face-secure.onrender.com
+      # Same-origin API for the built SPA (also set in frontend/.env.production;
+      # this env var wins if you ever host the frontend separately).
+      - key: VITE_API_URL
+        value: /api

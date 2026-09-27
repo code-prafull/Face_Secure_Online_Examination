@@ -30,7 +30,13 @@ npx nodemon server.js
 | `MONGO_URI`      | `mongodb://127.0.0.1:27017/smart-exam-proctoring`  | yes |
 | `JWT_SECRET`     | long random string                                 | yes |
 | `CLIENT_URL`     | `http://localhost:5173`                            | yes (CORS origin) |
+| `ALLOWED_ORIGINS`| `https://a.onrender.com,https://b.onrender.com`     | no (extra CORS origins, comma-separated) |
 | `GEMINI_API_KEY` | *(optional — summaries run locally, no key needed)* | no |
+
+> **Deployment note:** unknown origins are no longer a hard error — they just receive no
+> CORS headers (the browser blocks the read). Same-origin requests (e.g. the SPA served
+> by this same app on Render) always work. When `frontend/dist` exists it is served by
+> this app with an SPA fallback (`/api/*` still returns JSON 404s).
 
 > ⚠️ Node module paths are case-sensitive across platforms — always require models as
 > `../models/EventLog`, `../models/User`, `../models/Exam`, … (exact casing used everywhere).

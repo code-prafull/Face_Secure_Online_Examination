@@ -23,3 +23,6 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 *.local
+
+# Vite production env (only sets VITE_API_URL=/api — no secrets; Render needs it)
+!frontend/.env.production

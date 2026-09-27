@@ -23,6 +23,10 @@ npm run lint       # oxlint
 > Backend must be running on `:5000` (see [../backend/README.md](../backend/README.md)).
 > To point elsewhere, add `frontend/.env` → `VITE_API_URL=http://host:port/api`.
 > There is **no dev-proxy** — axios calls the API origin directly (CORS allows `CLIENT_URL`).
+>
+> **Production (`vite build`)** reads `.env.production` → `VITE_API_URL=/api`: the built
+> SPA is served by the backend from the same origin (Render single-service deploy), so
+> API calls are same-origin relative paths. `npm run dev` ignores this file.
 
 ---
 
