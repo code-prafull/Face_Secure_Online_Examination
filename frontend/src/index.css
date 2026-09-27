@@ -1,0 +1,340 @@
+@import "tailwindcss";
+
+/* Class-based dark mode (the .dark class lives on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Face Secure — design tokens */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  @apply bg-slate-50 text-slate-800;
+}
+
+/* Subtle, consistent focus ring for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-blue-500, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Thin scrollbars for panels */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* =========================================================================
+   DARK THEME — aesthetic skin layer
+   The app is built with light utilities (bg-white, text-slate-800, ...).
+   Below, every light utility in use is remapped to its dark equivalent so
+   the whole UI flips at once when <html> carries the `dark` class.
+   These rules are intentionally UNLAYERED so they override Tailwind's
+   layered utilities regardless of source order.
+   ========================================================================= */
+
+html.dark {
+  color-scheme: dark;
+  background-color: #060a12;
+}
+
+.dark body {
+  background-color: #060a12;
+  color: #cdd8ea;
+}
+
+/* ---- page background: deep navy + ambient glow orbs (viewport-fixed) ---- */
+.dark .bg-slate-50 {
+  background-color: #070b14;
+  background-image:
+    radial-gradient(720px 460px at 8% -12%, rgba(37, 99, 235, 0.16), transparent 62%),
+    radial-gradient(860px 520px at 96% 6%, rgba(99, 102, 241, 0.11), transparent 58%),
+    radial-gradient(900px 620px at 55% 115%, rgba(14, 165, 233, 0.08), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* ---- solid surfaces ---- */
+.dark .bg-white {
+  background-color: #0e1729;
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0) 42%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 14px 34px -22px rgba(0, 0, 0, 0.85);
+}
+.dark .bg-slate-100 {
+  background-color: #101a2e;
+}
+.dark .bg-slate-200 {
+  background-color: #1a2437;
+}
+.dark .bg-slate-300 {
+  background-color: #26344e;
+}
+.dark .bg-gray-50 {
+  background-color: #0a1120;
+}
+.dark .bg-gray-100 {
+  background-color: #111b30;
+}
+.dark .hover\:bg-white:hover {
+  background-color: #16223c;
+}
+
+/* ---- tinted surfaces (soft 50/100/200 tints → dark translucent tints) ---- */
+.dark .bg-blue-50 { background-color: rgba(59, 130, 246, 0.12); }
+.dark .bg-blue-100 { background-color: rgba(59, 130, 246, 0.18); }
+.dark .bg-green-50 { background-color: rgba(34, 197, 94, 0.12); }
+.dark .bg-green-100 { background-color: rgba(34, 197, 94, 0.18); }
+.dark .bg-green-200 { background-color: rgba(34, 197, 94, 0.26); }
+.dark .bg-amber-50 { background-color: rgba(245, 158, 11, 0.12); }
+.dark .bg-amber-100 { background-color: rgba(245, 158, 11, 0.18); }
+.dark .bg-amber-200 { background-color: rgba(245, 158, 11, 0.26); }
+.dark .bg-red-50 { background-color: rgba(239, 68, 68, 0.12); }
+.dark .bg-red-100 { background-color: rgba(239, 68, 68, 0.18); }
+.dark .bg-purple-50 { background-color: rgba(168, 85, 247, 0.12); }
+.dark .bg-purple-100 { background-color: rgba(168, 85, 247, 0.18); }
+.dark .bg-purple-200 { background-color: rgba(168, 85, 247, 0.26); }
+.dark .bg-yellow-100 { background-color: rgba(234, 179, 8, 0.18); }
+.dark .bg-orange-50 { background-color: rgba(249, 115, 22, 0.12); }
+.dark .bg-orange-100 { background-color: rgba(249, 115, 22, 0.18); }
+.dark .bg-fuchsia-100 { background-color: rgba(217, 70, 239, 0.18); }
+.dark .bg-indigo-100 { background-color: rgba(99, 102, 241, 0.18); }
+
+/* ---- text: neutral ---- */
+.dark .text-slate-800 { color: #e5ebf5; }
+.dark .text-slate-700 { color: #cbd5e1; }
+.dark .text-slate-600 { color: #9fb0c7; }
+.dark .text-slate-500 { color: #8496ae; }
+.dark .text-slate-400 { color: #6b7d96; }
+.dark .text-gray-800 { color: #dfe6f0; }
+.dark .text-gray-700 { color: #c6d0de; }
+.dark .text-gray-600 { color: #98a6ba; }
+.dark .text-gray-500 { color: #7f8fa6; }
+
+/* ---- text: accents (dark text on tints → light text on dark tints) ---- */
+.dark .text-blue-600 { color: #60a5fa; }
+.dark .text-blue-700 { color: #93c5fd; }
+.dark .text-blue-800 { color: #bfdbfe; }
+.dark .text-blue-900 { color: #c7d7ff; }
+.dark .text-green-600 { color: #4ade80; }
+.dark .text-green-700 { color: #86efac; }
+.dark .text-green-800 { color: #a7f3d0; }
+.dark .text-amber-600 { color: #fbbf24; }
+.dark .text-amber-700 { color: #fcd34d; }
+.dark .text-amber-800 { color: #fde68a; }
+.dark .text-amber-900 { color: #fef3c7; }
+.dark .text-red-600 { color: #f87171; }
+.dark .text-red-700 { color: #fca5a5; }
+.dark .text-red-800 { color: #fecaca; }
+.dark .text-purple-600 { color: #c084fc; }
+.dark .text-purple-700 { color: #d8b4fe; }
+.dark .text-purple-800 { color: #e9d5ff; }
+.dark .text-orange-700 { color: #fdba74; }
+.dark .text-orange-800 { color: #fed7aa; }
+.dark .text-yellow-700 { color: #fde047; }
+.dark .text-fuchsia-700 { color: #f0abfc; }
+.dark .text-indigo-700 { color: #a5b4fc; }
+
+/* ---- borders ---- */
+.dark .border-slate-100 { border-color: rgba(148, 163, 184, 0.08); }
+.dark .border-slate-200 { border-color: rgba(148, 163, 184, 0.14); }
+.dark .border-slate-300 { border-color: rgba(148, 163, 184, 0.22); }
+.dark .border-gray-100 { border-color: rgba(148, 163, 184, 0.08); }
+.dark .border-gray-200 { border-color: rgba(148, 163, 184, 0.14); }
+.dark .border-gray-300 { border-color: rgba(148, 163, 184, 0.22); }
+.dark .border-blue-200 { border-color: rgba(59, 130, 246, 0.3); }
+.dark .border-blue-300 { border-color: rgba(59, 130, 246, 0.4); }
+.dark .border-blue-400 { border-color: rgba(59, 130, 246, 0.5); }
+.dark .border-blue-500 { border-color: rgba(59, 130, 246, 0.6); }
+.dark .border-blue-600 { border-color: rgba(59, 130, 246, 0.7); }
+.dark .border-amber-200 { border-color: rgba(245, 158, 11, 0.32); }
+.dark .border-amber-300 { border-color: rgba(245, 158, 11, 0.42); }
+.dark .border-amber-400 { border-color: rgba(245, 158, 11, 0.55); }
+.dark .border-amber-500 { border-color: rgba(245, 158, 11, 0.65); }
+.dark .border-red-200 { border-color: rgba(239, 68, 68, 0.32); }
+.dark .border-red-300 { border-color: rgba(239, 68, 68, 0.42); }
+.dark .border-red-500 { border-color: rgba(239, 68, 68, 0.65); }
+.dark .border-green-200 { border-color: rgba(34, 197, 94, 0.32); }
+.dark .border-green-300 { border-color: rgba(34, 197, 94, 0.42); }
+.dark .border-green-500 { border-color: rgba(34, 197, 94, 0.65); }
+.dark .border-purple-300 { border-color: rgba(168, 85, 247, 0.42); }
+.dark .border-purple-500 { border-color: rgba(168, 85, 247, 0.65); }
+.dark .border-purple-600 { border-color: rgba(168, 85, 247, 0.75); }
+.dark .border-orange-300 { border-color: rgba(249, 115, 22, 0.42); }
+
+/* ---- divide (row separators in tables/lists) ---- */
+.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+.dark .divide-slate-100 > :not(:last-child) {
+  border-color: rgba(148, 163, 184, 0.08);
+}
+
+/* ---- rings (avatar halos, focus rings) ---- */
+.dark .ring-blue-100,
+.dark .focus\:ring-blue-100:focus { --tw-ring-color: rgba(59, 130, 246, 0.35); }
+.dark .ring-blue-400,
+.dark .focus\:ring-blue-400:focus { --tw-ring-color: rgba(96, 165, 250, 0.55); }
+.dark .ring-amber-100,
+.dark .focus\:ring-amber-100:focus { --tw-ring-color: rgba(245, 158, 11, 0.35); }
+.dark .ring-slate-300 { --tw-ring-color: rgba(148, 163, 184, 0.35); }
+
+/* ---- hover states (light → dark) ---- */
+.dark .hover\:bg-slate-50:hover { background-color: #101a2e; }
+.dark .hover\:bg-slate-100:hover { background-color: #14203a; }
+.dark .hover\:bg-slate-200:hover { background-color: #1a2740; }
+.dark .hover\:bg-gray-100:hover { background-color: #111b30; }
+.dark .hover\:bg-blue-50:hover { background-color: rgba(59, 130, 246, 0.12); }
+.dark .hover\:bg-blue-100:hover { background-color: rgba(59, 130, 246, 0.18); }
+.dark .hover\:bg-green-50:hover { background-color: rgba(34, 197, 94, 0.12); }
+.dark .hover\:bg-amber-50:hover { background-color: rgba(245, 158, 11, 0.12); }
+.dark .hover\:bg-red-50:hover { background-color: rgba(239, 68, 68, 0.12); }
+.dark .hover\:bg-red-100:hover { background-color: rgba(239, 68, 68, 0.18); }
+.dark .hover\:bg-purple-100:hover { background-color: rgba(168, 85, 247, 0.18); }
+.dark .hover\:border-blue-300:hover { border-color: rgba(59, 130, 246, 0.45); }
+.dark .hover\:text-blue-700:hover { color: #93c5fd; }
+.dark .hover\:text-slate-800:hover { color: #e5ebf5; }
+.dark .hover\:text-red-600:hover { color: #f87171; }
+.dark .disabled\:bg-slate-300:disabled { background-color: rgba(148, 163, 184, 0.16); }
+
+/* =========================================================================
+   AESTHETIC POLISH — gradients, glow, glass, depth
+   ========================================================================= */
+
+/* ---- primary action buttons: gradient + glow ---- */
+.dark .bg-blue-600 {
+  background-image: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  box-shadow: 0 6px 18px -8px rgba(37, 99, 235, 0.55);
+}
+.dark .hover\:bg-blue-700:hover {
+  background-image: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+}
+.dark .bg-blue-700 {
+  background-image: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%);
+}
+.dark .bg-green-600 {
+  background-image: linear-gradient(135deg, #16a34a 0%, #0d9488 100%);
+  box-shadow: 0 6px 18px -8px rgba(22, 163, 74, 0.5);
+}
+.dark .hover\:bg-green-700:hover {
+  background-image: linear-gradient(135deg, #15803d 0%, #0f766e 100%);
+}
+.dark .bg-red-600 {
+  box-shadow: 0 6px 18px -8px rgba(220, 38, 38, 0.5);
+}
+
+/* ---- shadow depth tuned for dark surfaces ---- */
+.dark .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.45);
+}
+.dark .shadow,
+.dark .shadow-md {
+  box-shadow: 0 10px 26px -14px rgba(0, 0, 0, 0.7);
+}
+.dark .shadow-lg {
+  box-shadow: 0 16px 36px -18px rgba(0, 0, 0, 0.8);
+}
+.dark .shadow-xl,
+.dark .shadow-2xl {
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.9);
+}
+
+/* ---- layout chrome: glass topbar + sidebar ---- */
+.dark .layout-topbar {
+  background: rgba(9, 14, 26, 0.72);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-color: rgba(148, 163, 184, 0.12);
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.9);
+}
+.dark .layout-sidebar {
+  background: linear-gradient(
+    180deg,
+    rgba(13, 20, 38, 0.96) 0%,
+    rgba(9, 14, 26, 0.99) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: rgba(148, 163, 184, 0.12);
+}
+/* active nav pill gets a soft blue glow */
+.dark .layout-sidebar .bg-blue-50 {
+  box-shadow:
+    inset 0 0 0 1px rgba(59, 130, 246, 0.3),
+    0 8px 18px -10px rgba(59, 130, 246, 0.7);
+}
+
+/* ---- inputs: crisp dark fields ---- */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #0b1424;
+}
+.dark input::placeholder,
+.dark textarea::placeholder,
+.dark select::placeholder {
+  color: #64748b;
+}
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+/* ---- focus glow ---- */
+.dark :focus-visible {
+  outline-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.22);
+}
+
+/* ---- scrollbars / selection ---- */
+.dark ::-webkit-scrollbar-thumb {
+  background: #2b3a55;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3b4e70;
+}
+.dark ::-webkit-scrollbar-track {
+  background: rgba(148, 163, 184, 0.05);
+}
+.dark ::selection {
+  background: rgba(59, 130, 246, 0.35);
+  color: #f1f5f9;
+}
+
+/* ---- charts (Recharts uses presentation attributes) ---- */
+.dark .recharts-text {
+  fill: #8496ae;
+}
+.dark .recharts-cartesian-grid line {
+  stroke: rgba(148, 163, 184, 0.12);
+}
+
+/* ---- smooth palette transition while the theme flips (added/removed by
+        ThemeToggle for ~400ms) ---- */
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.28s ease,
+    background-image 0.28s ease,
+    border-color 0.28s ease,
+    color 0.28s ease,
+    box-shadow 0.28s ease,
+    fill 0.28s ease !important;
+}

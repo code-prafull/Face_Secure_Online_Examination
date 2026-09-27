@@ -1,0 +1,25 @@
+# --- Secrets / environment ---
+.env
+.env.*
+!.env.example
+
+# --- Dependencies & builds ---
+node_modules/
+dist/
+dist-ssr/
+
+# --- Logs ---
+logs/
+*.log
+npm-debug.log*
+
+# --- Session / test artifacts ---
+cookies.txt
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.local
